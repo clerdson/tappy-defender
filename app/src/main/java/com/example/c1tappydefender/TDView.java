@@ -8,6 +8,8 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 public class TDView extends SurfaceView implements Runnable {
 volatile boolean playing;
 Thread gameThread = null;
@@ -19,6 +21,7 @@ public EnemyShip enemy3;
 private Paint paint;
 private Canvas canvas;
 private SurfaceHolder ourHolder;
+public ArrayList<SpaceDust> dustList = new ArrayList<SpaceDust>();
   public TDView(Context context,int x,int y){
 
       super(context);
@@ -29,6 +32,12 @@ private SurfaceHolder ourHolder;
       enemy1= new EnemyShip(context,x,y);
       enemy2 = new EnemyShip(context,x,y);
       enemy3 = new EnemyShip(context,x,y);
+      int numSpecs = 40;
+      for(int i=0;i<numSpecs;i++){
+          SpaceDust spec = new SpaceDust(x,y);
+          dustList.add(spec);
+      }
+
 
    }
 
@@ -46,6 +55,9 @@ private void update(){
       enemy1.update(player.getSpeed());
       enemy2.update(player.getSpeed());
       enemy3.update(player.getSpeed());
+      for(SpaceDust sd: dustList){
+          sd.updadte(player.getSpeed());
+      }
 }
 private void draw(){
       if(ourHolder.getSurface().isValid()){
@@ -61,6 +73,11 @@ private void draw(){
           canvas.drawBitmap(enemy1.getBitmap(),enemy1.getX(),enemy1.getY(),paint);
           canvas.drawBitmap(enemy2.getBitmap(),enemy2.getX(),enemy2.getY(),paint);
           canvas.drawBitmap(enemy3.getBitmap(),enemy3.getX(),enemy3.getY(),paint);
+          paint.setColor(Color.argb(255,255,255,255));
+          for(SpaceDust sd:dustList){
+              canvas.drawPoint(sd.getX(),sd.getY(),paint);
+          }
+
           ourHolder.unlockCanvasAndPost(canvas);
       }
 }
