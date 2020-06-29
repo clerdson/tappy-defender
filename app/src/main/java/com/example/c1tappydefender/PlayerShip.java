@@ -38,7 +38,7 @@ public class PlayerShip {
         if(speed<MIN_SPEED){
             speed=MIN_SPEED;
         }
-        y = speed+GRAVITY;
+        y -= speed+GRAVITY;
 
         if(y<minY){
             y = minY;
