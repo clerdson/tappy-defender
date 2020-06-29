@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -57,6 +58,16 @@ private void update(){
       enemy3.update(player.getSpeed());
       for(SpaceDust sd: dustList){
           sd.updadte(player.getSpeed());
+
+      }
+      if(Rect.intersects(player.getHitBox(),enemy1.getHitBox())){
+          enemy1.setX(-100);
+      }
+      if(Rect.intersects(player.getHitBox(),enemy2.getHitBox())){
+          enemy2.setX(-100);
+      }
+      if(Rect.intersects(player.getHitBox(),enemy3.getHitBox())){
+          enemy3.setX(-100);
       }
 }
 private void draw(){
@@ -64,6 +75,42 @@ private void draw(){
           canvas = ourHolder.lockCanvas();
 
           canvas.drawColor(Color.argb(255,0,0,0));
+
+
+          paint.setColor(Color.argb(255,255,255,255));
+
+          canvas.drawRect(
+                  player.getHitBox().left,
+                  player.getHitBox().top,
+                  player.getHitBox().right,
+                  player.getHitBox().bottom,
+                  paint
+
+          );
+          canvas.drawRect(
+                  enemy1.getHitBox().left,
+                  enemy1.getHitBox().top,
+                  enemy1.getHitBox().right,
+                  enemy1.getHitBox().bottom,
+                  paint
+          );
+          canvas.drawRect(
+                  enemy2.getHitBox().left,
+                  enemy2.getHitBox().top,
+                  enemy2.getHitBox().right,
+                  enemy2.getHitBox().bottom,
+                  paint
+          );
+          canvas.drawRect(
+                  enemy3.getHitBox().left,
+                  enemy3.getHitBox().top,
+                  enemy3.getHitBox().right,
+                  enemy3.getHitBox().bottom,
+                  paint
+          );
+
+
+
           canvas.drawBitmap(
                   player.getBitmap(),
                   player.getX(),
@@ -77,6 +124,8 @@ private void draw(){
           for(SpaceDust sd:dustList){
               canvas.drawPoint(sd.getX(),sd.getY(),paint);
           }
+
+
 
           ourHolder.unlockCanvasAndPost(canvas);
       }

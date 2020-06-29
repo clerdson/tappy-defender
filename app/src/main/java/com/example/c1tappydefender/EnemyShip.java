@@ -3,11 +3,12 @@ package com.example.c1tappydefender;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 import java.util.Random;
 
 public class EnemyShip {
-
+    private Rect hitBox;
     private Bitmap bitmap;
     private int x,y;
     private int speed = 1;
@@ -17,6 +18,7 @@ public class EnemyShip {
     private int minY;
 
     public EnemyShip(Context context,int screenX ,int screenY){
+
         bitmap = BitmapFactory.
                 decodeResource(context.getResources(),R.drawable.enemy);
         maxX = screenX;
@@ -27,9 +29,15 @@ public class EnemyShip {
         speed = generator.nextInt(6)+10;
         x = screenX;
         y = generator.nextInt(maxY)-bitmap.getHeight();
+        hitBox = new Rect(x,y,bitmap.getWidth(),bitmap.getHeight());
+
     }
 
     public void update(int playerSpeed){
+        hitBox.left = x;
+        hitBox.top =y;
+        hitBox.right = x+ bitmap.getWidth();
+        hitBox.bottom = y+bitmap.getHeight();
       x -= playerSpeed;
       x -=speed;
       if(x<minY-bitmap.getHeight()){
@@ -48,5 +56,11 @@ public class EnemyShip {
     }
     public int getY(){
         return y;
+    }
+    public Rect getHitBox(){
+        return hitBox;
+    }
+    public void setX(int x){
+        this.x =x;
     }
 }
