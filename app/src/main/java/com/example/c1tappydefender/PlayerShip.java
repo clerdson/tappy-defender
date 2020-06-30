@@ -3,6 +3,7 @@ package com.example.c1tappydefender;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 public class PlayerShip {
     private Bitmap bitmap;
@@ -14,7 +15,7 @@ public class PlayerShip {
     private int minY;
     private final int MIN_SPEED = 1;
     private  final int MAX_SPEED = 20;
-
+    private Rect hitBox;
     public PlayerShip(Context context,int screenX, int screenY){
         boosting=false;
         x=220;
@@ -24,6 +25,7 @@ public class PlayerShip {
                 decodeResource(context.getResources(),R.drawable.ship);
         maxY = screenY - bitmap.getHeight();
         minY = 0;
+        hitBox = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
     }
     public void update (){
         if(boosting){
@@ -46,6 +48,10 @@ public class PlayerShip {
         if(y>maxY){
             y=maxY;
         }
+        hitBox.left = x;
+        hitBox.top = y;
+        hitBox.right = x + bitmap.getWidth();
+        hitBox.bottom = y + bitmap.getHeight();
     }
     //Getters
     public Bitmap getBitmap(){
@@ -67,4 +73,5 @@ public class PlayerShip {
     public void stopBoosting(){
         boosting = false;
     }
+    public  Rect getHitbox(){return hitBox;}
 }

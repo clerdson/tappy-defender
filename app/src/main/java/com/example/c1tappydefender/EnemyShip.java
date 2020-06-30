@@ -3,6 +3,7 @@ package com.example.c1tappydefender;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 import java.util.Random;
 
@@ -16,6 +17,8 @@ public class EnemyShip {
     private int maxY;
     private int minY;
 
+    private Rect hitBox;
+
     public EnemyShip(Context context,int screenX ,int screenY){
         bitmap = BitmapFactory.
                 decodeResource(context.getResources(),R.drawable.enemy);
@@ -27,6 +30,7 @@ public class EnemyShip {
         speed = generator.nextInt(6)+10;
         x = screenX;
         y = generator.nextInt(maxY)-bitmap.getHeight();
+        hitBox = new Rect(x, y, bitmap.getWidth(), bitmap.getHeight());
     }
 
     public void update(int playerSpeed){
@@ -38,6 +42,10 @@ public class EnemyShip {
           x = maxX;
           y = generate.nextInt(maxY) - bitmap.getHeight();
       }
+        hitBox.left = x;
+        hitBox.top = y;
+        hitBox.right = x + bitmap.getWidth();
+        hitBox.bottom = y + bitmap.getHeight();
     }
 
     public Bitmap getBitmap(){
@@ -46,7 +54,13 @@ public class EnemyShip {
     public int getX(){
         return x;
     }
-    public int getY(){
-        return y;
+    public int getY(){return y;}
+
+    public Rect getHitbox(){return hitBox;}
+
+    // This is used by the TDView update() method to
+// Make an enemy out of bounds and force a re-spawn
+    public void setX(int x) {
+        this.x = x;
     }
 }

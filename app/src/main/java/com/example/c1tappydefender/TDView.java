@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -58,19 +59,61 @@ private void update(){
       for(SpaceDust sd: dustList){
           sd.updadte(player.getSpeed());
       }
-}
+    // Collision detection on new positions
+// Before move because we are testing last frames
+// position which has just been drawn
+// If you are using images in excess of 100 pixels
+// wide then increase the -100 value accordingly
+    if(Rect.intersects
+            (player.getHitbox(), enemy1.getHitbox())){
+        enemy1.setX(-100);
+
+    }
+    if(Rect.intersects
+            (player.getHitbox(), enemy2.getHitbox())){
+        enemy2.setX(-100);
+    }
+    if(Rect.intersects
+            (player.getHitbox(), enemy3.getHitbox())){
+        enemy3.setX(-100);
+    }
+
+
+  }
 private void draw(){
       if(ourHolder.getSurface().isValid()){
           canvas = ourHolder.lockCanvas();
-
-          canvas.drawColor(Color.argb(255,0,0,0));
-          canvas.drawBitmap(
-                  player.getBitmap(),
-                  player.getX(),
-                  player.getY(),
+          paint.setColor(Color.argb(255, 255, 255, 255));
+// Rub out the last frame
+          canvas.drawColor(Color.argb(255, 0, 0, 0));
+          // For debugging
+// Switch to white pixels
+          paint.setColor(Color.argb(255, 255, 255, 255));
+// Draw Hit boxes
+          canvas.drawRect(player.getHitbox().left,
+                  player.getHitbox().top,
+                  player.getHitbox().right,
+                  player.getHitbox().bottom,
+                  paint);
+          canvas.drawRect(enemy1.getHitbox().left,
+                  enemy1.getHitbox().top,
+                  enemy1.getHitbox().right,
+                  enemy1.getHitbox().bottom,
+                  paint);
+          canvas.drawRect(enemy2.getHitbox().left,
+                  enemy2.getHitbox().top,
+                  enemy2.getHitbox().right,
+                  enemy2.getHitbox().bottom,
                   paint
           );
-          canvas.drawBitmap(enemy1.getBitmap(),enemy1.getX(),enemy1.getY(),paint);
+
+          canvas.drawRect(enemy3.getHitbox().left,
+                  enemy3.getHitbox().top,
+                  enemy3.getHitbox().right,
+                  enemy3.getHitbox().bottom,
+                  paint);
+                  canvas.drawBitmap(player.getBitmap(),player.getX(),player.getY(),paint);
+                  canvas.drawBitmap(enemy1.getBitmap(),enemy1.getX(),enemy1.getY(),paint);
           canvas.drawBitmap(enemy2.getBitmap(),enemy2.getX(),enemy2.getY(),paint);
           canvas.drawBitmap(enemy3.getBitmap(),enemy3.getX(),enemy3.getY(),paint);
           paint.setColor(Color.argb(255,255,255,255));
