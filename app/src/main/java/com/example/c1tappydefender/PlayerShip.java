@@ -19,6 +19,7 @@ public class PlayerShip {
     private int shieldStrength;
 
     public PlayerShip(Context context, int screenX, int screenY) {
+        shieldStrength=5;
         boosting = false;
         x = 220;
         y = 150;
@@ -87,5 +88,8 @@ public class PlayerShip {
     }
     public int getShieldStrength() {
         return shieldStrength;
+    }
+    public void reduceShieldStrength(){
+        shieldStrength --;
     }
 }
