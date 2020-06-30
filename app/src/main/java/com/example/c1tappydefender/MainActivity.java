@@ -1,7 +1,6 @@
 package com.example.c1tappydefender;
 
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends Activity implements
-        View.OnClickListener{
+        View.OnClickListener {
     //This is the entry point to our game
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,18 +18,19 @@ public class MainActivity extends Activity implements
         setContentView(R.layout.activity_main);
 
         //Get a reference to the button in our layout
-        final Button buttonPlay=
-                (Button)findViewById(R.id.buttonPlay);
+        final Button buttonPlay =
+                (Button) findViewById(R.id.buttonPlay);
         //Listen for clicks
         buttonPlay.setOnClickListener(this);
 
 
     }
+
     @Override
-    public void onClick(View v){
+    public void onClick(View v) {
         //must be the play button
         //create a new Intent object
-        Intent i = new Intent(this,GameActivity.class);
+        Intent i = new Intent(this, GameActivity.class);
         //Start our GameActivity class via the intent
         startActivity(i);
         //now shut this activity down

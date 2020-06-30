@@ -7,10 +7,10 @@ public class SpaceDust {
     private int speed;
     private int maxX;
     private int maxY;
-    private  int minX;
+    private int minX;
     private int minY;
 
-    public SpaceDust(int screenX,int screenY){
+    public SpaceDust(int screenX, int screenY) {
         maxX = screenX;
         maxY = screenY;
         minX = 0;
@@ -21,21 +21,23 @@ public class SpaceDust {
         y = generator.nextInt(maxY);
 
     }
-    public void updadte(int playerSpeed){
-        x-= playerSpeed;
-        x-=speed;
-        if(x<0){
-            x=maxX;
+
+    public void updadte(int playerSpeed) {
+        x -= playerSpeed;
+        x -= speed;
+        if (x < 0) {
+            x = maxX;
             Random generator = new Random();
             y = generator.nextInt(maxY);
             speed = generator.nextInt(15);
         }
     }
 
-    public int getX(){
+    public int getX() {
         return x;
     }
-    public int getY(){
+
+    public int getY() {
         return y;
     }
 }
