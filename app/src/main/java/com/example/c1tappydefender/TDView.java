@@ -12,6 +12,13 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 
 public class TDView extends SurfaceView implements Runnable {
+private float distanceRemaining;
+private long timeTaken;
+private long timeStarted;
+private long fastestTime;
+private int screenX;
+private int screenY;
+
 volatile boolean playing;
 Thread gameThread = null;
 private PlayerShip player;
@@ -23,21 +30,33 @@ private Paint paint;
 private Canvas canvas;
 private SurfaceHolder ourHolder;
 public ArrayList<SpaceDust> dustList = new ArrayList<SpaceDust>();
+
+
+
+
+
   public TDView(Context context,int x,int y){
 
       super(context);
+
       //Initializze our drawing objects
       ourHolder = getHolder();
       paint = new Paint();
-      player = new PlayerShip(context,x,y);
-      enemy1= new EnemyShip(context,x,y);
-      enemy2 = new EnemyShip(context,x,y);
-      enemy3 = new EnemyShip(context,x,y);
-      int numSpecs = 40;
-      for(int i=0;i<numSpecs;i++){
-          SpaceDust spec = new SpaceDust(x,y);
-          dustList.add(spec);
-      }
+      //player = new PlayerShip(context,x,y);
+      //enemy1= new EnemyShip(context,x,y);
+      //enemy2 = new EnemyShip(context,x,y);
+      //enemy3 = new EnemyShip(context,x,y);
+      //int numSpecs = 40;
+     // for(int i=0;i<numSpecs;i++){
+      //    SpaceDust spec = new SpaceDust(x,y);
+      //    dustList.add(spec);
+      //}
+      player = new PlayerShip(context, x, y);
+      enemy1 = new EnemyShip(context, x, y);
+      enemy2 = new EnemyShip(context, x, y);
+      enemy3 = new EnemyShip(context, x, y);
+      screenX = x;
+      screenY = y;
 
 
    }
@@ -60,15 +79,24 @@ private void update(){
           sd.updadte(player.getSpeed());
 
       }
+      boolean hitDetected = false;
+
       if(Rect.intersects(player.getHitBox(),enemy1.getHitBox())){
+          hitDetected = true;
           enemy1.setX(-100);
       }
       if(Rect.intersects(player.getHitBox(),enemy2.getHitBox())){
+          hitDetected = true;
           enemy2.setX(-100);
       }
       if(Rect.intersects(player.getHitBox(),enemy3.getHitBox())){
+          hitDetected = true;
           enemy3.setX(-100);
       }
+
+
+
+
 }
 private void draw(){
       if(ourHolder.getSurface().isValid()){
@@ -125,10 +153,24 @@ private void draw(){
               canvas.drawPoint(sd.getX(),sd.getY(),paint);
           }
 
-
+          paint.setTextAlign(Paint.Align.LEFT);
+          paint.setColor(Color.argb(255, 255, 255, 255));
+          paint.setTextSize(25);
+          canvas.drawText("Fastest:"+ fastestTime + "s", 10, 20, paint);
+          canvas.drawText("Time:" + timeTaken + "s", screenX / 2, 20,
+                  paint);
+          canvas.drawText("Distance:" +
+                  distanceRemaining / 1000 +
+                  " KM", screenX / 3, screenY - 20, paint);
+          canvas.drawText("Shield:" +
+                  player.getShieldStrength(), 10, screenY - 20, paint);
+          canvas.drawText("Speed:" +
+                  player.getSpeed() * 60 +
+                          " MPS", (screenX /3 ) * 2, screenY - 20, paint);
 
           ourHolder.unlockCanvasAndPost(canvas);
-      }
+          }
+
 }
 private void control(){}
 
@@ -157,8 +199,6 @@ private void control(){}
               player.stopBoosting();
               break;
           case MotionEvent.ACTION_DOWN:
-              player.setBoosting();
-              break;
       }
       return true;
     }

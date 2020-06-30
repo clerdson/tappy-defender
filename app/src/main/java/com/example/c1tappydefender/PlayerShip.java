@@ -16,6 +16,7 @@ public class PlayerShip {
     private int minY;
     private final int MIN_SPEED = 1;
     private  final int MAX_SPEED = 20;
+    private int shieldStrength;
 
     public PlayerShip(Context context,int screenX, int screenY){
 
@@ -28,6 +29,7 @@ public class PlayerShip {
         maxY = screenY - bitmap.getHeight();
         minY = 0;
         hitBox = new Rect(x,y,bitmap.getWidth(),bitmap.getHeight());
+        shieldStrength = 2;
     }
     public void update (){
         hitBox.left = x;
@@ -78,4 +80,5 @@ public class PlayerShip {
     public Rect getHitBox(){
         return hitBox;
     }
+    public int getShieldStrength(){return shieldStrength;}
 }
