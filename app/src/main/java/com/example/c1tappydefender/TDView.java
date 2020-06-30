@@ -31,30 +31,29 @@ private Canvas canvas;
 private SurfaceHolder ourHolder;
 public ArrayList<SpaceDust> dustList = new ArrayList<SpaceDust>();
 
-
+//remover caso necessario
+private Context context;
 
 
 
   public TDView(Context context,int x,int y){
 
       super(context);
-
+      //remover caso necessario;
+       this.context = context;
       //Initializze our drawing objects
       ourHolder = getHolder();
       paint = new Paint();
-      //player = new PlayerShip(context,x,y);
-      //enemy1= new EnemyShip(context,x,y);
-      //enemy2 = new EnemyShip(context,x,y);
-      //enemy3 = new EnemyShip(context,x,y);
-      //int numSpecs = 40;
-     // for(int i=0;i<numSpecs;i++){
-      //    SpaceDust spec = new SpaceDust(x,y);
-      //    dustList.add(spec);
-      //}
-      player = new PlayerShip(context, x, y);
-      enemy1 = new EnemyShip(context, x, y);
-      enemy2 = new EnemyShip(context, x, y);
-      enemy3 = new EnemyShip(context, x, y);
+      player = new PlayerShip(context,x,y);
+      enemy1= new EnemyShip(context,x,y);
+      enemy2 = new EnemyShip(context,x,y);
+      enemy3 = new EnemyShip(context,x,y);
+      int numSpecs = 40;
+      for(int i=0;i<numSpecs;i++){
+          SpaceDust spec = new SpaceDust(x,y);
+         dustList.add(spec);
+      }
+
       screenX = x;
       screenY = y;
 
@@ -202,4 +201,6 @@ private void control(){}
       }
       return true;
     }
+
+
 }
