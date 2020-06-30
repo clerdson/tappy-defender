@@ -10,7 +10,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
-
+//code in github clerdson thanks
 public class TDView extends SurfaceView implements Runnable {
     volatile boolean playing;
     Thread gameThread = null;
